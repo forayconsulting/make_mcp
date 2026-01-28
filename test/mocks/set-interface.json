@@ -1,0 +1,22 @@
+{
+    "scenarioInterface": {
+        "input": [
+            {
+                "name": "item_name",
+                "type": "text",
+                "label": "Item Name",
+                "help": "The name of the item to add",
+                "required": true
+            },
+            {
+                "name": "quantity",
+                "type": "number",
+                "label": "Quantity",
+                "help": "Number of items",
+                "required": false,
+                "default": 1
+            }
+        ],
+        "output": null
+    }
+}

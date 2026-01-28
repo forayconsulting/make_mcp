@@ -1,0 +1,25 @@
+{
+    "scenario": {
+        "id": 99999,
+        "name": "New Scenario",
+        "description": "",
+        "teamId": 1,
+        "folderId": null,
+        "islinked": false,
+        "isPaused": false,
+        "usedPackages": [],
+        "lastEdit": "2024-01-15T12:00:00.000Z",
+        "scheduling": { "type": "on-demand" },
+        "isActive": false,
+        "isinvalid": false,
+        "islocked": false,
+        "createdByUser": {
+            "id": 123,
+            "name": "Test User",
+            "email": "test@example.com"
+        },
+        "created": "2024-01-15T12:00:00.000Z",
+        "nextExec": null,
+        "dlqCount": 0
+    }
+}

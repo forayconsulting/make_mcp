@@ -1,0 +1,38 @@
+{
+    "dlqs": [
+        {
+            "id": "dlq-123",
+            "scenarioId": 11652,
+            "executionId": "exec-456",
+            "bundle": {
+                "data": {
+                    "name": "Test Item"
+                }
+            },
+            "moduleId": 2,
+            "error": {
+                "message": "JSON parsing failed",
+                "type": "DataError"
+            },
+            "created": "2024-01-15T09:00:00.000Z",
+            "resolved": false
+        },
+        {
+            "id": "dlq-124",
+            "scenarioId": 11652,
+            "executionId": "exec-457",
+            "bundle": {
+                "data": {
+                    "name": "Another Item"
+                }
+            },
+            "moduleId": 3,
+            "error": {
+                "message": "Connection timeout",
+                "type": "RuntimeError"
+            },
+            "created": "2024-01-15T08:30:00.000Z",
+            "resolved": false
+        }
+    ]
+}

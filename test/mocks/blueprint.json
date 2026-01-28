@@ -1,0 +1,70 @@
+{
+    "blueprint": {
+        "name": "Tool: Add to Inventory",
+        "flow": [
+            {
+                "id": 1,
+                "module": "gateway:CustomWebHook",
+                "version": 1,
+                "metadata": {
+                    "designer": {
+                        "x": 0,
+                        "y": 0
+                    }
+                }
+            },
+            {
+                "id": 2,
+                "module": "json:ParseJSON",
+                "version": 1,
+                "mapper": {
+                    "json": "{{1.data}}"
+                },
+                "metadata": {
+                    "designer": {
+                        "x": 300,
+                        "y": 0
+                    }
+                }
+            },
+            {
+                "id": 3,
+                "module": "gateway:WebhookRespond",
+                "version": 1,
+                "mapper": {
+                    "status": 200,
+                    "body": "{{2.value}}"
+                },
+                "metadata": {
+                    "designer": {
+                        "x": 600,
+                        "y": 0
+                    }
+                }
+            }
+        ],
+        "metadata": {
+            "instant": true,
+            "version": 1,
+            "scenario": {
+                "roundtrips": 1,
+                "maxErrors": 3,
+                "autoCommit": true,
+                "autoCommitTriggerLast": true,
+                "sequential": false,
+                "slots": null,
+                "confidential": false,
+                "dataloss": false,
+                "dlq": false,
+                "freshVariables": false
+            },
+            "designer": {
+                "orphans": []
+            },
+            "zone": "us2.make.com"
+        }
+    },
+    "scheduling": {
+        "type": "on-demand"
+    }
+}

@@ -1,9 +1,21 @@
 import type {
     Scenario,
+    ScenarioFull,
+    ScenarioFullServerResponse,
     ScenarioInteface,
     ScenarioInterfaceServerResponse,
     ScenarioRunServerResponse,
     ScenariosServerResponse,
+    CreateScenarioRequest,
+    UpdateScenarioRequest,
+    CloneScenarioRequest,
+    Blueprint,
+    BlueprintServerResponse,
+    SetInterfaceRequest,
+    ScenarioInterfaceSetServerResponse,
+    IncompleteExecution,
+    IncompleteExecutionsServerResponse,
+    DeleteScenarioServerResponse,
 } from './types.js';
 import { createMakeError } from './utils.js';
 
@@ -38,6 +50,96 @@ class Scenarios {
                 'content-type': 'application/json',
             },
         });
+    }
+
+    async get(scenarioId: number): Promise<ScenarioFull> {
+        return (await this.#fetch<ScenarioFullServerResponse>(`/scenarios/${scenarioId}`)).scenario;
+    }
+
+    async create(request: CreateScenarioRequest): Promise<ScenarioFull> {
+        return (
+            await this.#fetch<ScenarioFullServerResponse>(`/scenarios`, {
+                method: 'POST',
+                body: JSON.stringify(request),
+                headers: {
+                    'content-type': 'application/json',
+                },
+            })
+        ).scenario;
+    }
+
+    async update(scenarioId: number, request: UpdateScenarioRequest): Promise<ScenarioFull> {
+        return (
+            await this.#fetch<ScenarioFullServerResponse>(`/scenarios/${scenarioId}`, {
+                method: 'PATCH',
+                body: JSON.stringify(request),
+                headers: {
+                    'content-type': 'application/json',
+                },
+            })
+        ).scenario;
+    }
+
+    async delete(scenarioId: number): Promise<{ id: number }> {
+        return (
+            await this.#fetch<DeleteScenarioServerResponse>(`/scenarios/${scenarioId}?confirmed=true`, {
+                method: 'DELETE',
+            })
+        ).scenario;
+    }
+
+    async clone(scenarioId: number, request: CloneScenarioRequest): Promise<ScenarioFull> {
+        return (
+            await this.#fetch<ScenarioFullServerResponse>(`/scenarios/${scenarioId}/clone`, {
+                method: 'POST',
+                body: JSON.stringify(request),
+                headers: {
+                    'content-type': 'application/json',
+                },
+            })
+        ).scenario;
+    }
+
+    async activate(scenarioId: number): Promise<ScenarioFull> {
+        return (
+            await this.#fetch<ScenarioFullServerResponse>(`/scenarios/${scenarioId}/start`, {
+                method: 'POST',
+            })
+        ).scenario;
+    }
+
+    async deactivate(scenarioId: number): Promise<ScenarioFull> {
+        return (
+            await this.#fetch<ScenarioFullServerResponse>(`/scenarios/${scenarioId}/stop`, {
+                method: 'POST',
+            })
+        ).scenario;
+    }
+
+    async getBlueprint(scenarioId: number, options?: { draft?: boolean }): Promise<Blueprint> {
+        const query = options?.draft ? '?bp=1' : '';
+        return (await this.#fetch<BlueprintServerResponse>(`/scenarios/${scenarioId}/blueprint${query}`)).blueprint;
+    }
+
+    async setInterface(
+        scenarioId: number,
+        request: SetInterfaceRequest,
+    ): Promise<ScenarioInterfaceSetServerResponse['scenarioInterface']> {
+        return (
+            await this.#fetch<ScenarioInterfaceSetServerResponse>(`/scenarios/${scenarioId}/interface`, {
+                method: 'PATCH',
+                body: JSON.stringify(request),
+                headers: {
+                    'content-type': 'application/json',
+                },
+            })
+        ).scenarioInterface;
+    }
+
+    async getIncompleteExecutions(scenarioId: number): Promise<IncompleteExecution[]> {
+        return (
+            await this.#fetch<IncompleteExecutionsServerResponse>(`/dlqs?scenarioId=${scenarioId}&pg[limit]=1000`)
+        ).dlqs;
     }
 }
 

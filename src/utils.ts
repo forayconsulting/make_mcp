@@ -28,6 +28,21 @@ export class MakeError extends Error {
     }
 }
 
+export class ValidationError extends Error {
+    field?: string;
+
+    constructor(message: string, field?: string) {
+        super(message);
+
+        this.name = 'ValidationError';
+        this.field = field;
+    }
+
+    toString() {
+        return `${this.name}: ${this.message}` + (this.field ? ` (field: ${this.field})` : '');
+    }
+}
+
 export async function createMakeError(res: Response): Promise<MakeError> {
     try {
         const body: unknown = await res.clone().json();

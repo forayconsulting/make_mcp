@@ -1,0 +1,30 @@
+{
+    "scenario": {
+        "id": 11652,
+        "name": "Tool: Add to Inventory",
+        "description": "Add a new item to the inventory.",
+        "teamId": 1,
+        "folderId": null,
+        "islinked": false,
+        "isPaused": false,
+        "usedPackages": ["json", "util"],
+        "lastEdit": "2024-01-15T10:30:00.000Z",
+        "scheduling": { "type": "on-demand" },
+        "isActive": true,
+        "isinvalid": false,
+        "islocked": false,
+        "createdByUser": {
+            "id": 123,
+            "name": "Test User",
+            "email": "test@example.com"
+        },
+        "updatedByUser": {
+            "id": 123,
+            "name": "Test User",
+            "email": "test@example.com"
+        },
+        "created": "2024-01-01T00:00:00.000Z",
+        "nextExec": null,
+        "dlqCount": 0
+    }
+}

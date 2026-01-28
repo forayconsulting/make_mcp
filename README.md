@@ -6,21 +6,29 @@ A Model Context Protocol server that enables Make scenarios to be utilized as to
 
 ## Current Capabilities
 
-The vanilla MCP server:
+This fork extends the vanilla MCP server with full scenario lifecycle management:
 
+### Scenario Execution (from vanilla)
 - Connects to your Make account and identifies all scenarios configured with "On-Demand" scheduling
 - Parses and resolves input parameters for each scenario, providing AI assistants with meaningful parameter descriptions
-- Allows AI assistants to invoke scenarios with appropriate parameters
+- Allows AI assistants to invoke scenarios with appropriate parameters via `run_scenario_{id}` tools
 - Returns scenario output as structured JSON, enabling AI assistants to properly interpret the results
 
-### Limitations (Vanilla)
+### Scenario Management (this fork)
+- **List & View**: `list_scenarios`, `get_scenario` - List all scenarios with filtering, get full scenario details
+- **Create & Clone**: `create_scenario`, `clone_scenario` - Create new scenarios or duplicate existing ones
+- **Update & Delete**: `update_scenario`, `delete_scenario` - Modify or remove scenarios
+- **Blueprint Management**: `get_blueprint`, `update_blueprint` - View and modify scenario module flow
+- **Interface Configuration**: `set_interface` - Define input parameters for on-demand scenarios
+- **Activation Control**: `activate_scenario`, `deactivate_scenario` - Control scenario scheduling
+- **Execution Logs**: `get_logs` - View incomplete execution logs (DLQ)
 
-The base server **cannot**:
-- Create, edit, or delete scenarios
-- Manage connections or webhooks
-- Access data stores
-- View or modify blueprints
-- Handle scheduled scenarios (only on-demand)
+### Remaining Limitations
+
+The server does **not** yet support:
+- Connection management (OAuth, credentials)
+- Webhook creation and configuration
+- Data store operations
 
 ## API Research
 
@@ -110,11 +118,27 @@ For the vanilla upstream version:
 - `MAKE_ZONE` - Your organization's zone (e.g., `us2.make.com`, `eu1.make.com`)
 - `MAKE_TEAM` - Found in the URL when viewing your Team page
 
+## Available Tools
+
+| Tool | Description |
+|------|-------------|
+| `run_scenario_{id}` | Execute an on-demand scenario (dynamic, one per scenario) |
+| `list_scenarios` | List all scenarios with optional filtering by type/status |
+| `get_scenario` | Get full scenario details including status and scheduling |
+| `create_scenario` | Create a new scenario with optional blueprint and scheduling |
+| `update_scenario` | Update scenario name, folder, blueprint, or scheduling |
+| `delete_scenario` | Permanently delete a scenario |
+| `clone_scenario` | Create a copy of an existing scenario |
+| `get_blueprint` | Get scenario blueprint (module flow and configuration) |
+| `update_blueprint` | Update scenario blueprint |
+| `set_interface` | Define input parameters for on-demand scenarios |
+| `get_logs` | Get incomplete execution logs (DLQ) |
+| `activate_scenario` | Activate scenario for scheduled execution |
+| `deactivate_scenario` | Deactivate scenario |
+
 ## Roadmap
 
-This fork aims to extend the MCP server with:
-- [ ] Scenario creation via API
-- [ ] Blueprint editing and management
+Future extensions planned:
 - [ ] Connection management
 - [ ] Data store operations
 - [ ] Webhook configuration
